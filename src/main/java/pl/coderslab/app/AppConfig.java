@@ -2,13 +2,12 @@ package pl.coderslab.app;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Configuration
@@ -16,13 +15,19 @@ import java.util.List;
 @ComponentScan(basePackages = "pl.coderslab")
 public class AppConfig implements WebMvcConfigurer {
 
+//    @Override
+//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
+//        stringConverter.setSupportedMediaTypes(
+//                List.of(new MediaType("text", "plain", StandardCharsets.UTF_8))
+//        );
+//        converters.add(stringConverter);
+//    }
+
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        StringHttpMessageConverter stringConverter = new StringHttpMessageConverter();
-        stringConverter.setSupportedMediaTypes(
-                List.of(new MediaType("text", "plain", StandardCharsets.UTF_8))
-        );
-        converters.add(stringConverter);
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converters.add(converter);
     }
 
     @Override
@@ -30,10 +35,4 @@ public class AppConfig implements WebMvcConfigurer {
         configurer.enable();
     }
 
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        MappingJackson2JsonView view = new MappingJackson2JsonView();
-        view.setPrettyPrint(true);
-        registry.enableContentNegotiation(view);
-    }
 }

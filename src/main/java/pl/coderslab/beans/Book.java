@@ -1,7 +1,5 @@
 package pl.coderslab.beans;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 public class Book {
     private long id;
     private String isbn;
@@ -10,8 +8,8 @@ public class Book {
     private String publisher;
     private String type;
 
-    @JsonCreator
-    public Book() {}
+    public Book() {
+    }
 
     public Book(long id, String isbn, String title, String author, String publisher, String type) {
         this.id = id;
@@ -68,5 +66,17 @@ public class Book {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", isbn='" + isbn + '\'' +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 }
